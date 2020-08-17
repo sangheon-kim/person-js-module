@@ -1,9 +1,5 @@
 {
-  "name": "calendar",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon index.js"
+  "dependencies": {
+    "js-calendar-module": "^1.0.3"
   }
 }

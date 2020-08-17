@@ -3,21 +3,21 @@
  * @author Sangheon Kim  (ksj8367@gmail.com)
  * @createdBy 20200816
  */
-exports.calendar = {
+const calendar = {
   isMonthSlice: true, // 월을 줄여서 보내주고싶을때
   lang: "ko", // 영어 켈린더의 경우 en으로 변경
-  setMonthSlice: function (bool) {
+  setMonthSlice: function (bool: boolean) {
     this.isMonthSlice = bool;
   },
   setLang: function (lang = "ko") {
     this.lang = lang;
   },
-  get_year: function (src) {
+  get_year: function (src: number) {
     if (src < 1841 || src > 2043) {
       throw new Error("연도 범위는 1841 ~ 2043 까지입니다.");
     } else return src;
   },
-  Resut: function (lunaDate) {
+  Resut: function (lunaDate: any) {
     // 음력 데이터 (평달 - 작은달 :1,  큰달:2 )
     // (윤달이 있는 달 - 평달이 작고 윤달도 작으면 :3 , 평달이 작고 윤달이 크면 : 4)
     // (윤달이 있는 달 - 평달이 크고 윤달이 작으면 :5,  평달과 윤달이 모두 크면 : 6)
@@ -236,9 +236,9 @@ exports.calendar = {
     var day = input_day.substring(6, 8);
     // 음력에서 양력으로 변환
     var lyear, leapyes;
-    var syear, smonth, sday;
-    var mm, y1, y2, m1;
-    var i, j, k1, k2, leap, w;
+    var syear: any, smonth, sday;
+    var y1, y2, m1;
+    var i, j;
     var td, y;
     lyear = this.get_year(year); // 년도 check
 
@@ -250,12 +250,12 @@ exports.calendar = {
         case 1:
         case 3:
         case 4:
-          mm = 29;
+          // mm = 29;
           break;
         case 2:
         case 5:
         case 6:
-          mm = 30;
+          // mm = 30;
           break;
       }
       // }
@@ -337,7 +337,7 @@ exports.calendar = {
       }
     } while (1);
     syear = y1;
-    md[1] = parseInt(y2) - 337;
+    md[1] = parseInt(y2.toString()) - 337;
     m1 = 0;
     do {
       m1 = m1 + 1;
@@ -347,19 +347,19 @@ exports.calendar = {
         td = td - md[m1 - 1];
       }
     } while (1);
-    smonth = parseInt(m1);
-    sday = parseInt(td);
-    y = parseInt(syear - 1);
+    smonth = parseInt(m1.toString());
+    sday = parseInt(td.toString());
+    y = parseInt(`${syear - 1}`) as any;
     td = y * 365 + y / 4 - y / 100 + y / 400;
     for (i = 0; i < smonth - 1; i++) {
       td = td + md[i];
     }
     // td = make_data(td) + sday;
-    w = td % 7;
+    // w = td % 7;
     // i = (td + 4) % 10;
     // j = (td + 2) % 12;
-    k1 = (parseInt(lyear) + 6) % 10;
-    k2 = (parseInt(lyear) + 8) % 12;
+    // k1 = (parseInt(lyear.toString()) + 6) % 10;
+    // k2 = (parseInt(lyear.toString()) + 8) % 12;
     /*         document.write("<br><br><center>");
               document.write("음력 ",gan[k1],jee[k2],"년 ",ddi[k2],"띠해 ",lyear," 년 ",lmonth," 월 ",lday," 일 ","(",gan[i],jee[j],")","<br>");
               document.write("양력 ",syear," 년 ",smonth," 월 ",sday," 일 ",week[w],"요일");
@@ -476,13 +476,13 @@ exports.calendar = {
     },
   ],
   // 오늘 달에 대해서 설정
-  setToday: function (year, month) {
+  setToday: function (year: number, month: number) {
     this.today = new Date(Date.UTC(year, month - 1, 1));
   },
   // 현재 설정된 날짜 리턴
   getToday: function () {
     // return this.today;
-    this.buildCalendar();
+    return this.buildCalendar();
   },
   // 이전달로 이동
   getPrevCalendar: function () {
@@ -494,7 +494,7 @@ exports.calendar = {
       )
     );
 
-    this.buildCalendar();
+    return this.buildCalendar();
   },
   // 다음달로 이동
   getNextCalendar: function () {
@@ -507,7 +507,7 @@ exports.calendar = {
       )
     );
 
-    this.buildCalendar();
+    return this.buildCalendar();
   },
   // 켈린더 그리기
   buildCalendar: function () {
@@ -628,10 +628,22 @@ exports.calendar = {
         isLunar: true,
         isConnect: true,
       },
+      {
+        date: "1003",
+        ko: "개천절",
+        en: "",
+        isLunar: false,
+      },
+      {
+        date: "1009",
+        ko: "한글날",
+        en: "",
+        isLunar: false,
+      },
     ];
 
     // 추가 휴일 및 대체 휴일
-    var alternativeHolidays = [];
+    var alternativeHolidays: any = [];
 
     // 한국으로 언어 설정되어있는 경우 koreanHoliday도 결합
     var holiday =
@@ -644,7 +656,7 @@ exports.calendar = {
       tblCalendar = [];
     }
 
-    let array = [];
+    let array: any = [];
 
     // 결합된 holiday에서 전 후 쉬는경우가 있을 수 있으니.. isConnect변수로 분기쳐서 배열에 삽입
     holiday.map((item) => {
@@ -680,7 +692,7 @@ exports.calendar = {
 
     // 한번도 휴일이 갱신이 안되어있는 경우 예를들어 현재 202001인데 201912같이 해가 바뀌지 않으면 굳이 휴일 갱신필요 x
     if (!isSame) {
-      let lunarIndexArray = [];
+      let lunarIndexArray: any = [];
       holiday.filter((item, idx) => {
         if (!!item.isLunar) {
           return lunarIndexArray.push(idx);
@@ -713,7 +725,7 @@ exports.calendar = {
 
     let result = {};
     // 일월화수목금토
-    let str1 = [];
+    let str1: any = [];
     // 일월화수목금토 배열 삽입
     this.weekArray.map((item) =>
       str1.push({ value: item[this.lang], dayCode: item.dayCode })
@@ -804,6 +816,9 @@ exports.calendar = {
     index = 1;
     result["calendar"] = tblCalendar;
 
+    // console.log(result);
     return result;
   },
 };
+
+export default calendar;

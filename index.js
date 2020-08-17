@@ -1,6 +1,4 @@
-const { calendar } = require("./calendar");
+// const { calendar } = require("js-calendar-module");
+const { calendar } = require("js-calendar-module");
 
-calendar.setToday(2020, 09);
-calendar.getPrevCalendar();
-// calendar.getToday();
-// calendar.getPrevCalendar();
+console.log(calendar.getToday());
